@@ -1,0 +1,18 @@
+[
+  {
+    "route": "/",
+    "violations": []
+  },
+  {
+    "route": "/sign-in",
+    "violations": []
+  },
+  {
+    "route": "/subjects",
+    "violations": []
+  },
+  {
+    "route": "/podcasts",
+    "violations": []
+  }
+]
