@@ -47,7 +47,7 @@ Spotify discovery starts with an empty public catalogue. Set `SPOTIFY_APPROVED_U
 
 ## Scope and next steps
 
-Video/channel/upload/moderation data models and integration seams are present; public video publishing, adaptive streaming, transcoding, public comments, unrestricted uploads, administrator review UI and AI services are **not enabled**. Do not treat this repository as production-approved without the external checks in [SECURITY](docs/SECURITY.md). See [TEST-REPORT](docs/TEST-REPORT.md) for exactly what was executed. `.github/workflows/ci.yml` defines build, unit, audit and browser checks; this initial build has not yet run on GitHub Actions.
+Video/channel/upload/moderation data models and integration seams are present; public video publishing, adaptive streaming, transcoding, public comments, unrestricted uploads, administrator review UI and AI services are **not enabled**. Do not treat this repository as production-approved without the external checks in [SECURITY](docs/SECURITY.md). See [TEST-REPORT](docs/TEST-REPORT.md) for exactly what was executed. `.github/workflows/ci.yml` runs build, unit, audit and browser checks on supported Ubuntu 24.04; see GitHub Actions for the current run results.
 
 - [Product specification](docs/PRODUCT-SPEC.md)
 - [Design system](docs/DESIGN-SYSTEM.md)
