@@ -1,0 +1,18 @@
+{
+  "name": "Lumen in your browser",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/node:2": { "version": "24" }
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "npm ci",
+  "postStartCommand": "bash scripts/start-browser-preview.sh",
+  "waitFor": "postCreateCommand",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "Lumen", "onAutoForward": "openBrowser" }
+  },
+  "customizations": {
+    "codespaces": { "openFiles": ["docs/OPEN-IN-BROWSER.md"] }
+  }
+}

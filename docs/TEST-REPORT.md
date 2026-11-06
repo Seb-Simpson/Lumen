@@ -70,3 +70,7 @@ During QA, an eager embedded-database initialisation issue, overrestrictive sess
 The final stable-server Playwright run passed all **9 tests together** (8 functional flows and 1 accessibility flow). Earlier runs interrupted by development hot reloads were rerun without concurrent source edits. The full final suite includes private search-history removal on logout and system-theme changes.
 
 GitHub CI initially reached the browser installation step after passing typecheck, unit tests, build and audit, but `ubuntu-latest` resolved to Ubuntu 26.04, which pinned Playwright 1.58.2 does not support. CI now pins supported Ubuntu 24.04.
+
+## Browser-only setup update (6 November 2026)
+
+Added a GitHub Codespaces dev container, automatic private port-3000 startup and exact forwarded-origin configuration. Six additional tests cover forwarded address derivation, malformed-host rejection, private mutation origins and development-only asset/WebSocket permissions. The current unit suite has **37 tests across seven files**. Shell syntax and local launcher execution were checked; a user-owned Codespace was not created or billed to validate provisioning. See OPEN-IN-BROWSER.md.

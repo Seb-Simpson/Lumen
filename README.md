@@ -2,6 +2,12 @@
 
 A subject-led home for educational discovery, built with Next.js App Router, TypeScript, Better Auth, Drizzle and PostgreSQL. Original observatory-inspired artwork and a warm paper light theme sit around a functioning learning library. No videos, channels, view counts or activity are invented.
 
+## Open in a browser without installing Node.js
+
+[Create a browser Codespace for Lumen](https://codespaces.new/Seb-Simpson/Lumen?ref=feat%2Flumen-foundation). Review your GitHub Codespaces allowance before creating it; no Codespace is created merely by this repository configuration.
+
+The checked-in dev container installs Node.js 24 and dependencies on GitHub's computer, starts Lumen automatically and forwards port 3000. If a new tab does not open, choose **Ports → Lumen / 3000 → Open in Browser**. Keep port visibility **Private**. See [the browser guide](docs/OPEN-IN-BROWSER.md), including verification emails and stopping the Codespace.
+
 ## Run locally
 
 Requires Node.js 22+ and npm. No paid API is required for the local application.

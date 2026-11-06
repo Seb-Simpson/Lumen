@@ -1,5 +1,13 @@
 import type { NextConfig } from "next";
+const developmentOrigin =
+  process.env.NODE_ENV === "development" && process.env.BETTER_AUTH_URL
+    ? new URL(process.env.BETTER_AUTH_URL)
+    : null;
+const developmentSocket = developmentOrigin
+  ? `${developmentOrigin.protocol === "https:" ? "wss:" : "ws:"}//${developmentOrigin.host}`
+  : "";
 const config: NextConfig = {
+  allowedDevOrigins: developmentOrigin ? [developmentOrigin.hostname] : [],
   logging: {
     incomingRequests: { ignore: [/\/verify-email/, /\/reset-password/] },
   },
@@ -21,7 +29,7 @@ const config: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `default-src 'self'; script-src 'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval' " : ""}https://open.spotify.com https://embed-cdn.spotifycdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.scdn.co https://image-cdn-ak.spotifycdn.com https://image-cdn-fa.spotifycdn.com; font-src 'self'; connect-src 'self' https://open.spotify.com; frame-src https://open.spotify.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`,
+            value: `default-src 'self'; script-src 'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval' " : ""}https://open.spotify.com https://embed-cdn.spotifycdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.scdn.co https://image-cdn-ak.spotifycdn.com https://image-cdn-fa.spotifycdn.com; font-src 'self'; connect-src 'self' https://open.spotify.com ${developmentSocket}; frame-src https://open.spotify.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`,
           },
           ...(process.env.NODE_ENV === "production"
             ? [
