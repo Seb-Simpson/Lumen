@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
+import { previewOrigin } from "./src/lib/app-origin.mjs";
 const developmentOrigin =
-  process.env.NODE_ENV === "development" && process.env.BETTER_AUTH_URL
-    ? new URL(process.env.BETTER_AUTH_URL)
-    : null;
+  process.env.NODE_ENV === "development" ? new URL(previewOrigin()) : null;
 const developmentSocket = developmentOrigin
   ? `${developmentOrigin.protocol === "https:" ? "wss:" : "ws:"}//${developmentOrigin.host}`
   : "";

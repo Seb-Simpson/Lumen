@@ -11,11 +11,19 @@ The startup script derives the preview's HTTPS address from GitHub's environment
 
 ## Creating a Lumen account
 
-This preview uses local development email, not an external sending service. After registering, open the newest message for your email in **.data → mail** in the editor's file explorer, and open its `url` to verify your account. Password recovery works the same way. These links are sensitive; do not share the files or make the preview port public.
+This preview writes verification and password-recovery emails to a private mailbox on the remote computer. It does not send to your actual inbox by default. After registering, open **Terminal → New Terminal** in the browser editor and run:
+
+```sh
+npm run mail -- you@example.com
+```
+
+Replace the address with your Lumen account email, then open the newest link printed by the command in the same browser. Registration requires this verification step before sign-in. No installation on your computer is needed. [Step-by-step verification and password recovery](DEVELOPMENT-EMAIL.md).
+
+You can also open your newest matching message in **.data → mail** in the file explorer and open its `url`. These token-bearing links are private; do not share them or make the preview port public.
 
 ## If setup is still running
 
-The first creation can take several minutes. Check **.data/browser-preview.log** in the editor for the server's startup output. Once setup completes, port 3000 should appear. If you need to restart the app, use the browser editor's terminal to run `bash scripts/start-browser-preview.sh`; npm is already installed in the remote environment.
+The first creation can take several minutes. Check **.data/browser-preview.log** in the editor for the server's startup output. Once setup completes, port 3000 should appear. To start the app when no server is running, use the browser editor's terminal to run `bash scripts/start-browser-preview.sh`; npm is already installed remotely. If the app is running with an older preview address, stop and restart the Codespace so its login URL is refreshed. Your `.data` library remains in the workspace. If you manually started `npm run dev` in another terminal, stop it there with **Ctrl+C** before starting another server.
 
 ## Finishing your session
 

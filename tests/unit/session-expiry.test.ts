@@ -16,6 +16,9 @@ test("Better Auth refuses a database-expired session even with its original sign
     "EMAIL_FROM",
     "NEXT_PHASE",
     "NODE_ENV",
+    "CODESPACES",
+    "CODESPACE_NAME",
+    "GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN",
   ] as const;
   for (const key of isolatedKeys) vi.stubEnv(key, undefined);
   vi.stubEnv("NODE_ENV", "test");

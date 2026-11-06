@@ -1,7 +1,16 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { previewOrigin } from "../../scripts/preview-origin.mjs";
+import { validateAuthConfiguration } from "../../src/lib/auth-config";
 import { assertSameOrigin } from "../../src/lib/security";
 const origin = "https://curious-book-123-3000.app.github.dev";
+beforeEach(() => {
+  for (const key of [
+    "CODESPACES",
+    "CODESPACE_NAME",
+    "GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN",
+  ])
+    vi.stubEnv(key, undefined);
+});
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.resetModules();
@@ -16,6 +25,30 @@ describe("browser development preview", () => {
         BETTER_AUTH_URL: "http://localhost:3000",
       }),
     ).toBe(origin);
+  });
+  it("derives the same trusted address for auth even when dev was started manually", () => {
+    const forwarded = {
+      NODE_ENV: "development" as const,
+      CODESPACES: "true",
+      CODESPACE_NAME: "curious-book-123",
+      BETTER_AUTH_URL: "http://localhost:3000",
+    };
+    expect(previewOrigin(forwarded)).toBe(origin);
+    expect(validateAuthConfiguration(forwarded)).toBe(origin);
+  });
+  it("does not override an explicit production origin from Codespaces variables", () => {
+    const production = {
+      NODE_ENV: "production" as const,
+      CODESPACES: "true",
+      CODESPACE_NAME: "curious-book-123",
+      BETTER_AUTH_URL: "https://learn.example",
+      RESEND_API_KEY: "configured",
+      EMAIL_FROM: "hello@example.test",
+    };
+    expect(validateAuthConfiguration(production)).toBe("https://learn.example");
+    expect(() =>
+      validateAuthConfiguration({ ...production, BETTER_AUTH_URL: undefined }),
+    ).toThrow("required");
   });
   it("keeps ordinary local development working", () => {
     expect(previewOrigin({})).toBe("http://localhost:3000");
@@ -58,6 +91,37 @@ describe("browser development preview", () => {
         }),
       ),
     ).toThrow();
+  });
+  it("ignores forged forwarding headers and authorises only this Codespace", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("CODESPACES", "true");
+    vi.stubEnv("CODESPACE_NAME", "curious-book-123");
+    vi.stubEnv("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN", "app.github.dev");
+    vi.stubEnv("BETTER_AUTH_URL", "http://localhost:3000");
+    expect(() =>
+      assertSameOrigin(
+        new Request("http://127.0.0.1:3000/api/library", {
+          headers: {
+            Origin: origin,
+            "x-forwarded-host": "evil.example",
+            "x-forwarded-proto": "http",
+          },
+        }),
+      ),
+    ).not.toThrow();
+    for (const forged of [
+      "http://localhost:3000",
+      "https://another-space-3000.app.github.dev",
+      "https://curious-book-123-3000.app.github.dev.evil.example",
+      "http://curious-book-123-3000.app.github.dev",
+    ])
+      expect(() =>
+        assertSameOrigin(
+          new Request("http://127.0.0.1:3000/api/library", {
+            headers: { Origin: forged },
+          }),
+        ),
+      ).toThrow();
   });
   it("allows development assets and websockets only for the configured host", async () => {
     vi.stubEnv("NODE_ENV", "development");

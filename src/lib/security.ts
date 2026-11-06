@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { previewOrigin } from "./app-origin.mjs";
 
 export class HttpError extends Error {
   constructor(
@@ -25,7 +26,7 @@ export function rateLimit(key: string, max = 60, windowMs = 60000) {
 }
 export function assertSameOrigin(request: Request) {
   const origin = request.headers.get("origin");
-  const configured = process.env.BETTER_AUTH_URL || "http://localhost:3000";
+  const configured = previewOrigin();
   if (!origin || origin !== new URL(configured).origin)
     throw new HttpError(
       403,

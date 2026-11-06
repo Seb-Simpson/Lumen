@@ -1,10 +1,18 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import {
   assertSameOrigin,
   readJson,
   rateLimit,
   HttpError,
 } from "../../src/lib/security";
+beforeEach(() => {
+  for (const key of [
+    "CODESPACES",
+    "CODESPACE_NAME",
+    "GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN",
+  ])
+    vi.stubEnv(key, undefined);
+});
 afterEach(() => vi.unstubAllEnvs());
 describe("request security", () => {
   it("requires the configured origin for private mutations", () => {
