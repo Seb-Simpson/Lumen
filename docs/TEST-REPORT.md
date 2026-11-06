@@ -68,3 +68,5 @@ Production PostgreSQL, HTTPS/TLS/secure cookies behind a real proxy, external em
 During QA, an eager embedded-database initialisation issue, overrestrictive session-read rate limit and search ARIA defects were reproduced, corrected and retested. Initial audit advisories were resolved. A transient unit resolver failure during a concurrent package-file write was rerun successfully against the stable tree.
 
 The final stable-server Playwright run passed all **9 tests together** (8 functional flows and 1 accessibility flow). Earlier runs interrupted by development hot reloads were rerun without concurrent source edits. The full final suite includes private search-history removal on logout and system-theme changes.
+
+GitHub CI initially reached the browser installation step after passing typecheck, unit tests, build and audit, but `ubuntu-latest` resolved to Ubuntu 26.04, which pinned Playwright 1.58.2 does not support. CI now pins supported Ubuntu 24.04.
