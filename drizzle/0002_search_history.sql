@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS search_history (id text PRIMARY KEY,user_id text NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,query text NOT NULL,searched_at timestamp NOT NULL DEFAULT now(),UNIQUE(user_id,query));
