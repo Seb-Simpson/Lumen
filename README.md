@@ -2,6 +2,12 @@
 
 A subject-led home for educational discovery, built with Next.js App Router, TypeScript, Better Auth, Drizzle and PostgreSQL. Original observatory-inspired artwork and a warm paper light theme sit around a functioning learning library. No videos, channels, view counts or activity are invented.
 
+## Open in a browser without installing Node.js
+
+[Create a browser Codespace for Lumen](https://codespaces.new/Seb-Simpson/Lumen?ref=feat%2Flumen-foundation). Review your GitHub Codespaces allowance before creating it; no Codespace is created merely by this repository configuration.
+
+The checked-in dev container installs Node.js 24 and dependencies on GitHub's computer, starts Lumen automatically and forwards port 3000. If a new tab does not open, choose **Ports → Lumen / 3000 → Open in Browser**. Keep port visibility **Private**. See [the browser guide](docs/OPEN-IN-BROWSER.md), including verification emails and stopping the Codespace.
+
 ## Run locally
 
 Requires Node.js 22+ and npm. No paid API is required for the local application.
@@ -14,7 +20,7 @@ npm run dev
 
 Open **http://localhost:3000**. Persistent embedded PostgreSQL (PGlite) is created under `.data/postgres`; account secrets and development email are also private local files under `.data/`. Keep this directory out of version control. Only one process may open the embedded database. Stop the development server before running database CLI scripts. A normal PostgreSQL connection is supported through `DATABASE_URL` and required in production.
 
-Registration sends a real verification token to `.data/mail/*.json` in local development. Open the `url` field in the newest message for your email to verify; then sign in. Password recovery uses the same outbox. These files contain sensitive single-use links: do not publish them. For real email, configure `RESEND_API_KEY` and `EMAIL_FROM` for a verified sending domain. Production must set `BETTER_AUTH_SECRET` (at least 32 random characters), `BETTER_AUTH_URL` (the exact HTTPS application origin), `DATABASE_URL`, and the email provider. See [.env.example](.env.example).
+Registration sends a real verification token to `.data/mail/*.json` in local development. In the Codespace terminal, `npm run mail -- your@email.example` prints the newest private message for your registered address; see [account verification instructions](docs/DEVELOPMENT-EMAIL.md). Open the `url` field in the newest message for your email to verify; then sign in. Password recovery uses the same outbox. These files contain sensitive single-use links: do not publish them. For real email, configure `RESEND_API_KEY` and `EMAIL_FROM` for a verified sending domain. Production must set `BETTER_AUTH_SECRET` (at least 32 random characters), `BETTER_AUTH_URL` (the exact HTTPS application origin), `DATABASE_URL`, and the email provider. See [.env.example](.env.example).
 
 ```bash
 # With the server stopped for embedded PostgreSQL:

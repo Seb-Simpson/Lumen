@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { getAuth } from "@/lib/auth";
 import { toNextJsHandler } from "better-auth/next-js";
-import { apiError, readJson } from "@/lib/security";
+import { apiError, assertSameOrigin, readJson } from "@/lib/security";
 export async function GET(request: Request) {
   try {
     return toNextJsHandler(await getAuth()).GET(request);
@@ -11,6 +11,7 @@ export async function GET(request: Request) {
 }
 export async function POST(request: Request) {
   try {
+    assertSameOrigin(request);
     // Auth is JSON-only in this deployment. Bound payloads before the provider reads them.
     const body = await readJson(request);
     if (body && typeof body === "object" && !Array.isArray(body)) {

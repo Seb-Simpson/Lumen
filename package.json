@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
-    "test:integration": "node tests/backend-flow.mjs"
+    "test:integration": "node tests/backend-flow.mjs",
+    "mail": "node scripts/read-mail.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "0.5.15",

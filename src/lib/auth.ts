@@ -112,7 +112,9 @@ async function initialiseAuth() {
     },
     user: { deleteUser: { enabled: true } },
     advanced: {
-      useSecureCookies: process.env.NODE_ENV === "production",
+      disableOriginCheck: false,
+      disableCSRFCheck: false,
+      useSecureCookies: baseURL.startsWith("https://"),
       defaultCookieAttributes: { httpOnly: true, sameSite: "lax" },
     },
     rateLimit: {
